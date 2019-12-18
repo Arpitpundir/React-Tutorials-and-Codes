@@ -1,0 +1,414 @@
+//we should give our components a name with capital letter
+    //above code gets converted to the code below 
+    // return React.createElement( type,
+    //   [props],
+    //   [...children])
+//Jsx
+    //above code is jsx which will at the end will gets compiled to React.createElement calls
+
+    //1. Embedding javascript expression
+    //we can embedd any valid javascript expression inside of jsx using curly braces. For Ex
+       //const name = 'Josh Perez';
+       //const element = <h1>Hello, {name}</h1>;
+       //we have embedded name variable inside of jsx,
+
+        //In this example we embedd a function call inside of jsx
+        // function formatName(user) {
+        //   return user.firstName + ' ' + user.lastName;
+        // }
+
+        // const user = {
+        //   firstName: 'Harper',
+        //   lastName: 'Perez'
+        // };
+
+        // const element = (
+        //   <h1>
+        //     Hello, {formatName(user)}!
+        //   </h1>
+        // );
+
+      //2. jsx is an expression too 
+      //After compilation jsx call becomes regular javascript function calls and evaluate to javascript  objects.
+      //therefore we can use this in if statement and in for loops, assign it to variable and accept it as an argument
+      // function getGreeting(user) {
+      //   if (user) {
+      //     return <h1>Hello, {formatName(user)}!</h1>;
+      //   }
+      //   return <h1>Hello, Stranger.</h1>;
+      // }
+
+      //3. Jsx may contain childrean
+      // const element = (
+      //   <div>
+      //     <h1>Hello!</h1>
+      //     <h2>Good to see you here.</h2>
+      //   </div>
+      // );   
+
+
+Props::
+In react we use props to send data to components
+In react every component is treated as pure function
+In react props are equivalent to parameters of a 
+pure javascript function.
+Props are immutable. Because these are developed
+in the concept of pure functions.
+In pure functions we cannot change the data parameter
+.So also we cannot change the data of a prop in Reactjs
+
+Children in jsx::
+in jsx content between opening and closing tag is passed to an component as props.children
+We can pass string or other jsx elements as children.
+For Ex-
+<MyContainer>
+  <MyFirstComponent />
+  <MySecondComponent />
+</MyContainer>
+
+We can also pass any js expression as children but this expression should be enclosed within braces.
+ForEx-
+function Item(props) {
+  return <li>{props.message}</li>;
+}
+
+function TodoList() {
+  const todos = ['finish doc', 'submit pr', 'nag dan to review'];
+  return (
+    <ul>
+      {todos.map((message) => <Item key={message} message={message} />)}
+      this is a js function used inside of an jsx element
+      and it returns a jsx element every times it runs
+    </ul>
+  );
+}
+
+Normally children of  jsx evaluates to string or react element or a list of both.
+but we can also pass a javascript callback as a children.
+ForEx-
+
+function Repeat(props) {
+  let items = [];
+  for (let i = 0; i < props.numTimes; i++) {
+    items.push(props.children(i));
+  }
+  return <div>{items}</div>;
+}
+
+function ListOfTenThings() {
+  return (
+    <Repeat numTimes={10}>
+      {(index) => <div key={index}>This is item {index} in the list</div>}
+    </Repeat>
+    in here we are passing a function as a children which is enclosed inside paranthesis, this code 
+    above would create a Repeat component which will have many div
+    element
+  );
+}
+
+State::
+In below code we are implementing a clock component,
+
+function Clock(props) {
+  return (
+    <div>
+      <h1>Hello, world!</h1>
+      <h2>It is {props.date.toLocaleTimeString()}.</h2>
+    </div>
+  );
+}
+
+function tick() {
+  ReactDOM.render(
+    <Clock date={new Date()} />,
+    document.getElementById('root')
+  );
+}
+
+setInterval(tick, 1000);
+
+calling components after every 1 sec to uodate the clock, but in above code ther are outside function
+handling our clock and changing it, what we want that clock component should set up its own timer
+and update its timer itself, to achieve that we have to use something called state.
+
+State is similar to props but it is implemented and maintained privately by the components we do not 
+provides its value from outside.
+
+for using state we will implement our components as a class
+
+class Clock extends Component {
+    render(){
+        return(
+            <div>
+                <h1>Hello, world!</h1>
+                <h2>It is {this.props.date.toLocaleTimeString()}.</h2>
+            </div>
+        )
+    }
+}
+
+the render method will be called every time an update happens but as long as we are rendering our 
+clock into the same node, then only a single instance of the node would be used, only a single 
+instance of the clock would be used.
+We would use state now to show time, to convert this code from prop to state we will use three
+steps
+1. replace this.props to this.state
+class Clock extends Component {
+    render(){
+        return(
+            <div>
+                <h1>Hello, world!</h1>
+                <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+            </div>
+        )
+    }
+}
+2. Add a constructor to the class, to add the initial state
+
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {date: new Date()};
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+      </div>
+    );
+  }
+}
+
+3. Remove the date prop from the component
+
+ReactDom.render(<clock/>, document.getElementById(root))
+
+Section 4 List and conditionals 
+lect1
+how to show data conditionally
+we can use if like statement by using {} and : to show some jsx or not what we did was to take a vari
+-able in state when we call button handler we check for this variable if this variable is set or not 
+and set other variable accordingly then this variable is checked to render the variable or not
+i press button on pressing the button i check whether the var is set or not if set i render if not 
+i render nothing
+
+lect 2
+using javascript logic to show data conditionally
+we can use a variable called person and set it to null initially in our component we will check whether
+showPerson is set set or not everytime we render component if it is set we person to a component having
+persons if not person stays to null
+
+lect 3
+in most cases we would be rendering that we get from db so we will use map method on the array we get
+from db and map every element to a component and render these components
+
+lect 4
+we should never use mutate the state object directly what we should do is store the object in temporary object then 
+mutate this object and then store this obj in the state as whole.
+
+lect 5 
+when we are working with a list and we use a map method to render entire list then we should add a key attribute to
+every element we make in the map method because when react rerenders a list then it compares entire list and add mutation
+when there is a change. 
+we usually make key with the id that we get from databases.
+
+lect 88:: classbased vs functional based components
+class based components have access to state via this, functional components have access to state via useState hook
+class based access props via this, functional component access props via props
+class based components have lifecycle hooks functional based components do not have lifecycle hooks
+We should use class based components if we want to manage state, use lifecycle hooks and do not want to use react hooks
+We should functional component is all other cases.
+
+lect 89:: classbased components lifecycle overview
+components lifecycle method only available  in class based components.
+there are methods which are called only when first time a component is created and there are components which are called when a component 
+
+The methods which are called when an instance of a component is being created and inserted into the component
+1. constructor
+when a component is created then constructor of component is called when we are created a costructor of our own componennt then we should 
+call super with props as argument constructor is used for setting initial state but we should not have any side effect work in the const
+-ructor.
+
+2. getDerivedStateFormProps
+this method is used when our state depends on the props update.this would be used only when props of ouur component change and our state
+local state depends on that. we should not use to cause any side effects.It should return an object to update the state, or null to update
+nothing.
+This method exists for rare use cases where the state depends on changes in props over time. For example, it might be handy for implementing a 
+<Transition> component that compares its previous and next children to decide which of them to animate in and out.
+
+3. render
+this method prepare our component jsx, we should not do any sideeffect in render method too. 
+we will go to the next method only after all child component of our component have finished rendering and have completed their lifecycles
+methods
+
+4.componentDidMount
+method is used for causing sideeffects for ex making https request but we should not update state here.
+
+lecture 91:: component lifecycle- update
+
+An update can happen due to change in state or props, when an update happens a component rerenders. On rerendering 
+a number of methods are called 
+
+1. getDerivedStateFormProps
+
+2. shouldComponentMount(nextProps, nextState)
+this method is called just before render method. this method is used to tell react whether to update the component or not.
+the default value it returns is always true.this method exist for only optimization and should not be used to prevent the rendering 
+of the component. 
+
+3 render
+
+4 getSnapshotBeforeUpdate(prevProps, prevState)
+this method is called just before the most recently rendered output is committed to dom. this method is used to capture some
+information about previous DOM before it is changed for ex scroll position.
+A snapshot value or null should be returned.
+
+5 componentDidUpdate(prevProps, prevState, snapshot)
+this method is called just after updating occurs we should this method to operate on the dom after the update.
+
+App.js getDerivedStateFromProps {title: "PersonManager"}
+App.js:35 shouldComponentUpdate App
+App.js:89 App.js render function
+Persons.js:6 getDerivedStateFromProps Persons
+Persons.js:10 shouldComponentUpdate Persons
+Persons.js:23 Persons.js render
+Person.js:5 getDerivedStateFromProps Person
+Person.js:9 shouldComponentUpdate person
+Person.js:22 render Person
+Person.js:5 getDerivedStateFromProps Person
+Person.js:9 shouldComponentUpdate person
+Person.js:22 render Person
+Person.js:5 getDerivedStateFromProps Person
+Person.js:9 shouldComponentUpdate person
+Person.js:22 render Person
+3Person.js:14 getSnapshotBeforeUpdate Person
+Persons.js:15 getSnapshotBeforeUpdate Persons
+App.js:40 getSnapshotBeforeUpdate App
+3Person.js:19 componentDidUpdate Person
+Persons.js:20 componentDidUpdate Persons
+App.js:45 componentDidUpdate App
+
+lecture 93:: useEffect
+A life cycle like functionality  for functional components. useEffect takes a function as inputs and react remembers
+to call this function whenever this component rerenders
+
+lecture 94:: useEffect and dependencies
+second argument in the useEffect is a dependency array which should contain all state and prop variables which code 
+inside useEffect uses. Now whenever value of atleast one of the variable changes then useEffect will run again and 
+if no value has changed then useEffect will not run.
+if we do not provide any second argument then useEffect would run for every rerender, and if i provide an empty array then it would run
+for only mounting and unmounting
+
+lecture 95:: clean up
+there are some effects in which we do some sort of subscription or any thing else which should be removed when a component unmount or 
+when a component rerenders this undoing in unmounting or rerendering is called cleanup.
+In lifecycle hooks we do this by in componentDidUnmount but in useEffect we will do this by returning a function from useEffect this function
+would be called for every rerender by default and would be responsible for cleanup.
+
+componentWillUnmount lifecycle method is used for cleanup through lifecycle method this method is invoked immediately before a method 
+is unmounted and destroyed.
+
+lecture 98:: React.memo()
+react memo is used to render functional components only if there is a change in them i.e to render them only if there is a change in
+their props or in their state
+
+lecture 99:: when should we use shouldComponentUpdate and React.memo
+we should not use this kind of optimization if child component updates in almost all cases when parent updates, but if there are fair 
+no of cases when parent updates but these updates do not effect child state or props then we should optimization.
+
+lecture 100:: PureComponent 
+We can use PureComponent in place of Component because PureComponent do a shallow comparison for every rerender i.e a shallow 
+comparison between newProps and oldProps to see if it should rerender on the other hand if we are using component then it wiil always 
+render the component without checking whether there is a change or not we can change it by using shouldComponentUpdate.
+
+lecture 101:: how react updates the DOM
+After render call shouldComponentUpdate is called and then old dom and new dom are compared if diffrences are found then then real dom is
+touched how there is a full article in docs by name reconcialation .
+
+lecture 102:: Adjacent jsx 
+We can return elements without wrapping them in div by using a special wrapping element which, this element would return only props.children
+and we do not need to import any react elemnt in this file because we are not using any jsx in there we do not  have anything to do with
+jsx in there.
+now why a wrapping element do not give any error because we have not wrapped content in this file it is because we are just returning 
+only an expression not jsx int there.
+
+lectur 103:: Fragement
+We can also use React.Fragement as a wrapper when we want childrens without wrapping into something which also has an
+identity in the dom.
+
+lecture 104:: higher order components
+https://reactjs.org/docs/higher-order-components.html
+
+it is a convention to name the highordercomponents to name with
+
+lecture 107:: passing unknown props
+when we are wrapping a component in the div in our withClass function then we are not setting any props on the wrapped 
+components for ex on the Person component but we have access to these props as the props which are passed to the functional
+component which is returned by the withClass.
+
+lecture 108:: setting states properly
+if we are using old state while setting new state then we should optional function syntax of setState in which we pass 
+a function to setState with prevState and props as argument and then we can use this prevState while setting new state
+Reason is this in old syntax react do not gurantee that the state which we are using for setting the new state is exac
+-tly the state we intend to use.
+
+lecture 110: using ref
+usually parent contacts a child by passing props but in some cases we might have to break this flow, react provide us 
+with refs to do this what react does is it provides us the child element as a property to the parent class based component
+this property is available in whole class. this addition happen before componentDidMount or componentDidUpdate of parent 
+component runs.
+We add refs as a property by using React.createRef() api and then assign element by using ref keyword (see in person
+component)
+
+lecture 111: useRef hook
+allows us to use ref in the functional components
+useRef returns a ref object which is initialized to the argument value then this ref object can be assinged to any 
+element by passing the this object as the value of the ref property.
+see in cockpit.js
+
+lecture 113: context api
+when we do not want to pass data through many levels of components when the data would be used only in the end components
+then we can use contextApi
+
+const myContext = React.createContext(defaultValue)
+returns a context object, a component which has subscribed to this context will read the current value from the closest
+context provider above the tree.
+
+default is only used when we have a component does not have matching provider above in the tree. passing undefined do not
+makes the component to reuse the component touse the default the state.
+
+Context.Provider::
+Every react component comes with a provider component which provides the value to this context which can be used by the
+comonent which has subscribed to the component.
+
+MyContext.Provider(value = {})
+function takes a value prop as argument for consuming components that are descendents components of this  component.
+One provider can be connected to many consumer. 
+All descendents of the provider will rerender whenever the value prop changes.
+
+Class.contextType::
+we can assign contextType property of an class based component to the context object. this lets us consume the nearest
+context value using this.context.
+
+Context.consumer
+A component that subcribes to the context is called the consumer 
+<MyContext.consumer>
+{value => (render something which uisng the value) }
+</MyContext>
+
+this takes a function as an argument and value is passed to this component, it returns a node.
+the value passsed to this function would be the value of the value prop of the closest provider component.
+
+We can also pass function to change context so that we can change the context value from any consumer
+we should keep the value in the state because this would prevent us from unnecessary rerendering.
+
+Everything that need to have access the values in our context should be wrapped inside fo Provider in the file where you
+set the values of the context.
+
+lecture 115:: A simple syntax for contextApi
+for class based components we need to create a static variable named context and give it value of the imported AuthContext
+object.
+As for functional components we need to import the useContext api and pass it the context object as an argument then we can
+use the returned value simply as an context object.

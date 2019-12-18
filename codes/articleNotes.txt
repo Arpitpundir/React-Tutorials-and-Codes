@@ -1,0 +1,3 @@
+composition vs inheritance
+there are some components which do not  know their children ahead of time, such component should use the props.children
+directly in their output.

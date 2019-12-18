@@ -1,0 +1,13 @@
+.Person{
+    margin: auto;
+    margin-top: 30px;
+    width: 50%;
+    border: 1px solid grey;
+    border-radius: 3px;
+    text-align: center;
+    box-shadow: 1px 0px 3px 2px  grey;
+}
+
+.centerdText{
+    text-align: center;
+}

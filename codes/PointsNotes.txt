@@ -1,0 +1,4 @@
+1.whenever we want to handle the state of a component from other component then we would passs the state
+handler to this component
+
+2.A component returns jsx only
