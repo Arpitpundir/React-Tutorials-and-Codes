@@ -1,0 +1,11 @@
+React is a library that is designed to update the browser DOM for us. We no longer
+have to be concerned with the complexities associated with building performant SPAs
+because React can do that for us. With React, we do not interact with the DOM API
+directly. Instead, we interact with a virtual DOM, or set of instructions that React will
+use to construct the UI and interact with the browser. 5
+
+The virtual DOM is made up of React elements, which conceptually seem similar to
+HTML elements, but are actually JavaScript objects. It is much faster to work directly
+with JavaScript objects than it is to work with the DOM API. We make changes to a
+JavaScript object, the virtual DOM, and React renders those changes for us using the
+DOM API as efficiently as possible.

@@ -1,0 +1,16 @@
+.Blog ul{
+    display: flex;
+}
+.Blog li{
+    color: black;
+    margin: 10px;
+    margin-right: 20px;
+}
+.Blog a{
+    text-decoration: none;
+    color: black;
+}
+
+.Blog a.active{
+    color: orange;
+}

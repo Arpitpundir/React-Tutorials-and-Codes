@@ -1,0 +1,33 @@
+Summary about using redux::
+Now every component has a container we create two functions one for providing the slices of states that this component
+would need and another for providing the actions that this component would need .
+Something like this:: 
+
+const mapStateToProps = state => {
+    return {
+
+        ctr: state.ctr.counter,
+        storedResults: state.res.results
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onIncrementCounter: () => dispatch({type: actionTypes.INCREMENT}),
+        onDecrementCounter: () => dispatch({type: actionTypes.DECREMENT}),
+        onAddCounter: () => dispatch({type: actionTypes.ADD, val: 10}),
+        onSubtractCounter: () => dispatch({type: actionTypes.SUBTRACT, val: 15}),
+        onStoreResult: (result) => dispatch({type: actionTypes.STORE_RESULT, result: result}),
+        onDeleteResult: (id) => dispatch({type: actionTypes.DELETE_RESULT, resultElId: id})
+    }
+};
+
+but neither we have access to state or dispatch this would be taken care by, we need to import connect from react-redux
+library.
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+
+we combine reducers for every property present in global state and create seperate file for dealing with actions 
+related to every state property.
+
+then we create store for our app by passing the root reducers where we have specified the reducers state property wise
+then we pass this store to our provider object.
